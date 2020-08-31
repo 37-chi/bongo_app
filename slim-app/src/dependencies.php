@@ -19,4 +19,17 @@ return function (App $app) {
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
+
+    $container['view'] = function ($container) {
+        $view = new \Slim\Views\Twig('../templates', [
+            // 'cache' => 'cache'   // デバッグのためコメントアウト
+        ]);
+    
+        // Instantiate and add Slim specific extension
+        $router = $container->get('router');
+        $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
+        $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
+    
+        return $view;
+    };
 };

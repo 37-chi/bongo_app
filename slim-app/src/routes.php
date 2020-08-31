@@ -14,4 +14,10 @@ return function (App $app) {
         // Render index view
         return $container->get('renderer')->render($response, 'index.phtml', $args);
     });
+
+    $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'profile.twig', [
+            'name' => $args['name']
+        ]);
+    });
 };
